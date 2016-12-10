@@ -1,0 +1,33 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File("/Users/heinerludwig/Documents/Studium/Information Retrieval/Seminar/Arbeit/2. Aufgabe/Workspace/test.jpg"));
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		
+		ImagePartitioner test = new ImagePartitioner();
+		test.setImage(img);
+		
+		CosinusTransformator transformer = new CosinusTransformator();
+		
+		// Y DC 
+		transformer.setU(2);
+		transformer.setV(5);
+		transformer.setBlockColorValue((float)test.getColorMatrix().get(3).get(0).getY());
+		
+		System.out.println((float)test.getColorMatrix().get(3).get(0).getY());
+		System.out.println(Math.round(transformer.getValue()));
+	}
+
+}

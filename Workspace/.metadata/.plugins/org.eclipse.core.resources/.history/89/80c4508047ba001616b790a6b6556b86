@@ -1,0 +1,102 @@
+import java.util.ArrayList;
+
+enum colorValue {
+	Y, Cb, Ca
+}
+
+public class CosinusTransformator {
+
+	private float N = 8;
+	private ArrayList<ArrayList<ColorValues>> blockColorMatrix;
+	
+	
+	public ArrayList<ArrayList<ColorValues>> getBlockColorValue() {
+		return blockColorMatrix;
+	}
+
+
+	public void setBlockColorMatrix(ArrayList<ArrayList<ColorValues>> blockColorMatrix) {
+		this.blockColorMatrix = blockColorMatrix;
+	}
+
+
+	public float getN() {
+		return N;
+	}
+
+
+	public void setN(float n) {
+		N = n;
+	}
+
+
+	public ArrayList<ArrayList<Float>> getValue(colorValue value) {
+		
+		float alphaU = 0;
+		float alphaV = 0;
+		float result = 0;
+
+		ArrayList<ArrayList<Float>> matrix = new ArrayList<ArrayList<Float>>();
+		
+		if (this.u == 0) {
+			alphaU = (float) Math.sqrt(1.0/this.N);
+		} else {
+			alphaU = (float) Math.sqrt(2.0/this.N);
+		}
+		
+		if (this.v == 0) {
+			alphaV = (float) Math.sqrt(1.0/this.N);
+		} else {
+			alphaV = (float) Math.sqrt(2.0/this.N);
+		}
+		
+		// get each colorType
+		for (int c = 0; c < 3; c++) {
+			
+			// iterate over matrix line by line
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+					
+					// build sum
+					for (int y = 0; y <= this.N-1; y++) {
+						for (int x = 0; x <= this.N-1; x++) {
+							
+							float colorValueFloat = 0;
+							
+							switch(value) {
+							case Y:
+								colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getY();
+								break;
+							case Cb:
+								colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getCb();
+								break;
+							case Ca:
+								colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getCa();
+								break;
+							}
+							
+							result += colorValueFloat * (Math.cos( (Math.PI * (2.0*y+1) * this.u)/(2.0*this.N) ) ) * (Math.cos( (Math.PI * (2.0*x+1) * this.v)/(2.0*this.N) ));
+							
+						}
+						
+					}
+					
+					result *= alphaU * alphaV;
+					
+					// for first new colorset, add new list/matrix entry
+					if (j == 0) {
+						ArrayList<Float> firstValue = new ArrayList<Float>();
+						firstValue.add(result);
+						matrix.add(firstValue);
+					} else {
+						matrix.get(i).add(result);
+					}
+					
+				}
+			}
+		}
+		
+		return matrix;
+	}
+	
+}

@@ -11,7 +11,7 @@ public class ColorValues {
 	
 	private float y;
 	private float cb;
-	private float ca;
+	private float cr;
 	
 	public ColorValues(int colorType1, int colorType2, int colorType3, valueType colorSpace) {
 		
@@ -25,7 +25,7 @@ public class ColorValues {
 			case YCaCb:
 				this.y = colorType1;
 				this.cb = colorType2;
-				this.ca = colorType3;
+				this.cr = colorType3;
 		}
 		
 		this.convertToYCbCa();
@@ -51,12 +51,12 @@ public class ColorValues {
 		this.cb = cb;
 	}
 
-	public double getCa() {
-		return ca;
+	public double getCr() {
+		return cr;
 	}
 
-	public void setCa(float ca) {
-		this.ca = ca;
+	public void setCr(float ca) {
+		this.cr = ca;
 	}
 	
 	public int getRed() {
@@ -81,6 +81,6 @@ public class ColorValues {
 	public void convertToYCbCa() {
 		this.y = (float) ((0.299 * this.red) + (0.587 * this.green) + ( 0.114 * this.blue));
 		this.cb = (float) (128 - (0.168736 * this.red) - (0.331264 * this.green) + ( 0.5 * this.blue));
-		this.ca = (float) (128 + (0.5 * this.red) - (0.418688 * this.green) - ( 0.081312 * this.blue));
+		this.cr = (float) (128 + (0.5 * this.red) - (0.418688 * this.green) - ( 0.081312 * this.blue));
 	}
 }

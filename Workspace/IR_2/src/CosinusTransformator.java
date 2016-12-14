@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 enum colorValue {
-	Y, Cb, Ca
+	Y, Cb, Cr
 }
 
 public class CosinusTransformator {
@@ -55,8 +55,8 @@ public class CosinusTransformator {
 						case Cb:
 							colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getCb();
 							break;
-						case Ca:
-							colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getCa();
+						case Cr:
+							colorValueFloat = (float) this.blockColorMatrix.get(y).get(x).getCr();
 							break;
 						}
 						

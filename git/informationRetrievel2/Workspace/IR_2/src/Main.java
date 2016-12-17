@@ -20,29 +20,25 @@ public class Main {
 		ImagePartitioner partitioner = new ImagePartitioner();
 		ZickZackReader reader = new ZickZackReader();
 		CosinusTransformator transformer = new CosinusTransformator();
+		Quantizise quant = new Quantizise();
 		
 		partitioner.setImage(img);
 		
 		transformer.setBlockColorMatrix(partitioner.getColorMatrix());
 		
-		for (Integer i = 0; i < 8; i++) {
-			System.out.println("neue Zeile:");
-			for (Integer j = 0; j < 8; j++) {
-				System.out.println(partitioner.getColorMatrix().get(i).get(j).getY());
-				System.out.println("->" + transformer.getValue(colorValue.Y).get(i).get(j));
-			}
-		}
+		// set factor to 1 (so nothing happened, because the quantisize is marked as voluntary in the slides)
+		Integer quantisizeFactor = 1;
 		
 		// the integer and list names are the same as in the slides inside the XML-code on slide 8
-		reader.setMatrix(transformer.getValue(colorValue.Y));
+		reader.setMatrix(quant.quantisizeMatrix(transformer.getValue(colorValue.Y), quantisizeFactor));
 		Integer YDCCoeff = reader.getDCValue();
 		List<Integer> YACCoeff5 = reader.get5ACValues();
 		
-		reader.setMatrix(transformer.getValue(colorValue.Cb));
+		reader.setMatrix(quant.quantisizeMatrix(transformer.getValue(colorValue.Cb),quantisizeFactor));
 		Integer CbDCCoeff = reader.getDCValue();
 		List<Integer> CbACCoeff2 = reader.get2ACValues();
 		
-		reader.setMatrix(transformer.getValue(colorValue.Cr));
+		reader.setMatrix(quant.quantisizeMatrix(transformer.getValue(colorValue.Cr),quantisizeFactor));
 		Integer CrDCCoeff = reader.getDCValue();
 		List<Integer> CrACCoeff2 = reader.get2ACValues();
 		
